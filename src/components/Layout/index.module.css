@@ -1,0 +1,39 @@
+.header{
+    background-color: rgba(0, 255, 255, 0.4);
+    color: #487bd7;
+}
+
+.demo_logo{
+    font-size: 24px;
+    font-weight: bolder;
+    margin-right: 0;
+    min-width: max-content;
+}
+
+.header_logo {
+    margin-right: 5px;
+}
+
+.header_hover{
+    float: right;
+    font-size: 18px;
+    padding-left: 600px;
+}
+
+.main_section {
+    height: calc(100vh - 64px);
+}
+
+.main_sider {
+    width: auto;
+}
+
+.main_section_content {
+    background-color: azure;
+    padding: 32px;
+}
+.main_content {
+    background-color: #fff;
+    border-radius: 18px;
+    padding: 24px;
+}
