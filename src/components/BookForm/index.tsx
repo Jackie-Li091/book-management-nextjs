@@ -14,8 +14,9 @@ import { bookAdd } from "@/api/book";
 import { BookType } from "@/types/book";
 import { useRouter } from "next/router";
 
-import styles from './index.module.css';
+import styles from "./index.module.css";
 import dayjs from "dayjs";
+import Content from "../PageContent";
 
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -31,17 +32,17 @@ export default function BookForm() {
   const [form] = Form.useForm();
   const router = useRouter();
 
-  const handleFinsh = async (values: BookType)=>{
-    if(values.publishAt)
-        values.publishAt = dayjs(values.publishAt).valueOf();
-    
+  const handleFinsh = async (values: BookType) => {
+    if (values.publishAt) values.publishAt = dayjs(values.publishAt).valueOf();
+
     await bookAdd(values);
     message.success("added!");
-    router.push('/book');
-  }
+    router.push("/book");
+  };
 
   return (
     <>
+    <Content title="Add Book">
       <Form
         form={form}
         labelCol={{ span: 4 }}
@@ -107,9 +108,17 @@ export default function BookForm() {
         </Form.Item>
 
         <Form.Item>
-          <Button htmlType="submit" type="primary" className={styles.btn} size="large">Submit</Button>
+          <Button
+            htmlType="submit"
+            type="primary"
+            className={styles.btn}
+            size="large"
+          >
+            Submit
+          </Button>
         </Form.Item>
       </Form>
+    </Content>
     </>
   );
 }

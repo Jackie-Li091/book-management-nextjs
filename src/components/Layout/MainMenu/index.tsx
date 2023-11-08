@@ -52,6 +52,8 @@ const MainMenu: React.FC = () => {
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     router.push(key);
   };
+  const activeMenu = router.pathname;
+  console.log(activeMenu);
 
   return (
     <Menu
@@ -61,6 +63,7 @@ const MainMenu: React.FC = () => {
       style={{ height: "100%", borderRight: 0,width: "fit-content" }}
       items={ITEMS}
       onClick={handleMenuClick}
+      selectedKeys={[activeMenu]} 
     />
   );
 };

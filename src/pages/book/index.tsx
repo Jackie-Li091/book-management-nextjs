@@ -18,6 +18,7 @@ import styles from "@/pages/book/index.module.css";
 import dayjs from "dayjs";
 import { bookList } from "@/api/book";
 import { BookQueryType } from "@/types/book";
+import Content from "@/components/PageContent/index";
 
 const COLUMNS = [
   {
@@ -87,13 +88,17 @@ export default function Home() {
       setData(data);
     }
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSearch = async (values: BookQueryType) => {
-    const res = await bookList({ ...values, current: 1, pageSize: pagination.pageSize });
+    const res = await bookList({
+      ...values,
+      current: 1,
+      pageSize: pagination.pageSize,
+    });
     setData(res.data);
-    setPagination({...pagination, current: 1, total: res.total});
+    setPagination({ ...pagination, current: 1, total: res.total });
   };
   const handleClear = () => {
     form.resetFields();
@@ -136,70 +141,84 @@ export default function Home() {
 
   return (
     <>
-      <Form
-        name="searchForm"
-        form={form}
-        layout="inline"
-        onFinish={onSearch}
-        initialValues={{
-          name: "",
-          author: "",
-          category: "",
-        }}
+      <Content
+        title="Book List"
+        operation={
+          <Button
+            type="primary"
+            onClick={() => {
+              router.push("/book/add");
+            }}
+          >
+            Add book
+          </Button>
+        }
       >
-        <Row gutter={24}>
-          <Col span={7}>
-            <Form.Item name="name" label="Name:">
-              <Input placeholder="input here" allowClear />
-            </Form.Item>
-          </Col>
-          <Col span={7}>
-            <Form.Item name="author" label="Author:">
-              <Input allowClear />
-            </Form.Item>
-          </Col>
-          <Col span={5}>
-            <Form.Item name="category" label="Category:">
-              <Select
-                allowClear
-                showSearch
-                placeholder="select:"
-                options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" },
-                  { value: "disabled", label: "Disabled", disabled: true },
-                ]}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={5}>
-            <Form.Item>
-              <Space>
-                <Button type="primary" htmlType="submit">
-                  Search
-                </Button>
-                <Button htmlType="submit" onClick={handleClear}>
-                  Clear
-                </Button>
-              </Space>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
-
-      <div className={styles.table}>
-        <Table
-          dataSource={data}
-          columns={columns}
-          scroll={{ x: 1000 }}
-          pagination={{
-            ...pagination,
-            showTotal: () => `Total: ${pagination.total}`,
+        <Form
+          name="searchForm"
+          form={form}
+          layout="inline"
+          onFinish={onSearch}
+          initialValues={{
+            name: "",
+            author: "",
+            category: "",
           }}
-          onChange={handlePageChange}
-        />
-      </div>
+        >
+          <Row gutter={24}>
+            <Col span={7}>
+              <Form.Item name="name" label="Name:">
+                <Input placeholder="input here" allowClear />
+              </Form.Item>
+            </Col>
+            <Col span={7}>
+              <Form.Item name="author" label="Author:">
+                <Input allowClear />
+              </Form.Item>
+            </Col>
+            <Col span={5}>
+              <Form.Item name="category" label="Category:">
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="select:"
+                  options={[
+                    { value: "jack", label: "Jack" },
+                    { value: "lucy", label: "Lucy" },
+                    { value: "Yiminghe", label: "yiminghe" },
+                    { value: "disabled", label: "Disabled", disabled: true },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={5}>
+              <Form.Item>
+                <Space>
+                  <Button type="primary" htmlType="submit">
+                    Search
+                  </Button>
+                  <Button htmlType="submit" onClick={handleClear}>
+                    Clear
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+
+        <div className={styles.table}>
+          <Table
+            dataSource={data}
+            columns={columns}
+            scroll={{ x: 1000 }}
+            pagination={{
+              ...pagination,
+              showTotal: () => `Total: ${pagination.total}`,
+            }}
+            onChange={handlePageChange}
+          />
+        </div>
+      </Content>
     </>
   );
 }

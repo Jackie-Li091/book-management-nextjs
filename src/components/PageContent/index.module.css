@@ -1,0 +1,15 @@
+.title{
+    font-size: 24px;
+    margin-bottom: 14px;
+}
+
+.content{
+    background-color: white;
+    border-radius: 18px;
+    padding: 32px;
+    height: calc(100% - 51px);
+}
+
+.btn {
+    float: right;
+}
