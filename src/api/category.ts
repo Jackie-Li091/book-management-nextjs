@@ -1,12 +1,12 @@
-import { BookQueryType, BookType } from "@/types/book";
+import { CategoryQueryType, CategoryType } from "@/types/category";
 import request from "@/utils/request";
 import qs from "qs";
 
-export async function categoryList(params?: BookQueryType) {
+export async function categoryList(params?: CategoryQueryType) {
   return request.get(`/api/categories?${qs.stringify(params)}`);
 }
 
-export async function categoryAdd(params: BookType) {
+export async function categoryAdd(params: CategoryType) {
   return request.post("/api/categories", params);
 }
 

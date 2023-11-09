@@ -25,7 +25,7 @@ const LEVEL = {
   ONE: 1,
   TWO: 2,
 };
-const LEVEL_OPTIONS = [
+export const LEVEL_OPTIONS = [
   { label: "level 1", value: LEVEL.ONE },
   { label: "level 2", value: LEVEL.TWO },
 ];
@@ -104,8 +104,8 @@ export default function Category() {
     form.resetFields();
   };
 
-  const handleCategoryEdit = () => {
-    router.push("/category/edit/id");
+  const handleCategoryEdit = (id: string) => {
+    router.push(`/category/edit/${id}`);
   };
   const handleCategoryDelete = (id: string) => {
     Modal.confirm({
@@ -136,7 +136,9 @@ export default function Category() {
       render: (_: any, row: any) => {
         return (
           <Space>
-            <Button type="link" onClick={handleCategoryEdit}>
+            <Button type="link" onClick={() => {
+                handleCategoryEdit(row._id);
+              }}>
               Edit
             </Button>
             <Button

@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google'
-import BookForm from '@/components/BookForm'
+import CategoryForm from '@/components/CategoryForm'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  return <BookForm />
+  return <CategoryForm />
 }

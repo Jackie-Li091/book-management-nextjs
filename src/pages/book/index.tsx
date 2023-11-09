@@ -9,14 +9,14 @@ import {
   Table,
   TablePaginationConfig,
   Image,
+  message,
 } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 import styles from "@/pages/book/index.module.css";
 import dayjs from "dayjs";
-import { bookList } from "@/api/book";
+import { bookDelete, bookList } from "@/api/book";
 import { BookQueryType } from "@/types/book";
 import Content from "@/components/PageContent/index";
 
@@ -81,12 +81,16 @@ export default function Home() {
     total: 0,
   });
 
+  async function fetchData(result?: BookQueryType) {
+    const res = await bookList({
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+      ...result,
+    });
+    const { data } = res;
+    setData(data);
+  }
   useEffect(() => {
-    async function fetchData() {
-      const res = await bookList({ current: 1, pageSize: pagination.pageSize });
-      const { data } = res;
-      setData(data);
-    }
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -104,11 +108,13 @@ export default function Home() {
     form.resetFields();
   };
 
-  const handleBookEdit = () => {
-    router.push("/book/edit/id");
+  const handleBookEdit = (id: string) => {
+    router.push(`/book/edit/${id}`);
   };
-  const handleBookDelete = () => {
-    router.push("/book/delete/id");
+  const handleBookDelete = async (id: string) => {
+    await bookDelete(id);
+    message.success("Delete success");
+    fetchData(form.getFieldsValue());
   };
   const handlePageChange = (pagination: TablePaginationConfig) => {
     setPagination(pagination);
@@ -127,10 +133,18 @@ export default function Home() {
       render: (_: any, row: any) => {
         return (
           <Space>
-            <Button type="link" onClick={handleBookEdit}>
+            <Button type="link" onClick={() => {
+                handleBookEdit(row._id);
+              }}>
               Edit
             </Button>
-            <Button type="link" danger onClick={handleBookDelete}>
+            <Button
+              type="link"
+              danger
+              onClick={() => {
+                handleBookDelete(row._id);
+              }}
+            >
               Delete
             </Button>
           </Space>

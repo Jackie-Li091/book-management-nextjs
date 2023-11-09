@@ -27,7 +27,7 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-export default function BookForm() {
+export default function BookForm({title}:{title:string}) {
   const [preview, setPreview] = useState("");
   const [form] = Form.useForm();
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function BookForm() {
 
   return (
     <>
-    <Content title="Add Book">
+    <Content title={title}>
       <Form
         form={form}
         labelCol={{ span: 4 }}
